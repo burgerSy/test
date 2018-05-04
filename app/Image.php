@@ -13,5 +13,5 @@ class Image extends Model
     // Redis::connection();
 
     public $table = 'images';
-    public $fillable = ['url'];
+    public $fillable = ['url', 'category_id'];
 }

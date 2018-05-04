@@ -16,17 +16,17 @@ class FetchImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $image;
+    protected $category_id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Image $image)
+    public function __construct($category_id)
     {
         //
-        $this->image = $image;
+        $this->category_id = $category_id;
     }
 
     /**
@@ -52,6 +52,7 @@ class FetchImage implements ShouldQueue
         foreach($xml->data->images->image as $image) {
             $url = $image->url;
             $input['url'] = $url;
+            $input['category_id'] = $this->category_id;
             Image::create($input);
         }
     }

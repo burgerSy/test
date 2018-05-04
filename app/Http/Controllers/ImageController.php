@@ -28,15 +28,16 @@ class ImageController extends Controller
 		        "name" => $category->name
 		    );
 		    array_push($categories, $obj);
-		    $image = new Image();
-		    $this->dispatch(new FetchImage($image));
+		    $this->dispatch(new FetchImage((int) $obj["id"][0]));
 		}
-		
+
 		return redirect('/');
 	}
 
 	public function getData(){
 		$cacheCount = Cache::get('count');
+		if(!($cacheCount))
+			$cacheCount = 0;
 		$dbCount = Image::count();
 		return view('results', compact('dbCount', 'cacheCount'));
 	}
