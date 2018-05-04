@@ -37,21 +37,12 @@ class FetchImage implements ShouldQueue
     public function handle()
     {
         //
-        $curl = curl_init();
-
         $number = rand (10,20);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://thecatapi.com/api/images/get?format=xml&results_per_page=" . $number,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_TIMEOUT => 30000,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-        ));
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
+        $client = new \GuzzleHttp\Client();
+        $res = $client->get('http://thecatapi.com/api/images/get?format=xml&results_per_page=' . $number);
+
+        $response = (string)$res->getBody();
 
         $xml = simplexml_load_string($response);
 
